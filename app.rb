@@ -7,11 +7,19 @@ def value(object, key)
 end
 
 def station?(place)
-  true if place.attributes['spot'] && place.attributes['spot'].value.to_i == 1
+  if place.attributes['spot'] && place.attributes['spot'].value.to_i == 1
+    true
+  else
+    false
+  end
 end
 
 def bike?(place)
-  true if place.attributes['bike'] && place.attributes['bike'].value.to_i == 1
+  if place.attributes['bike'] && place.attributes['bike'].value.to_i == 1
+    true
+  else
+    false
+  end
 end
 
 def bike_number(place)
