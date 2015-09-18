@@ -77,6 +77,6 @@ doc.search('//country').each do |country|
   end
 end
 
-File.open('output' + '.json', 'w') do |file|
+File.open('output.geojson', 'w') do |file|
   file.print items.to_json
 end
