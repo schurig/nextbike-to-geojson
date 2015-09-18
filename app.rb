@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'json'
+require 'open-uri'
 
 def value(object, key)
   return nil if !object.attributes[key]
@@ -28,8 +29,8 @@ def bike_number(place)
 end
 
 features = []
-f = File.open('nextbike.xml')
-doc = Nokogiri::XML(f)
+nextbike_data = open('http://nextbike.net/maps/nextbike-live.xml?domains=fg')
+doc = Nokogiri::XML(nextbike_data)
 doc.search('//country').each do |country|
   country.search('//city').each do |city|
     city.search('//place').each do |place|
