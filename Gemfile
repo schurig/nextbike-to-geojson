@@ -4,3 +4,4 @@ ruby File.read('.ruby-version').chomp
 
 # Libs
 gem 'nokogiri'
+gem 'json'
