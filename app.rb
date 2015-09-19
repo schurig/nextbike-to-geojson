@@ -2,25 +2,20 @@ require 'nokogiri'
 require 'json'
 require 'open-uri'
 
+# Methods
 def value(object, key)
   return nil if !object.attributes[key]
   object.attributes[key].value
 end
 
 def station?(place)
-  if place.attributes['spot'] && place.attributes['spot'].value.to_i == 1
-    true
-  else
-    false
-  end
+  return true if place.attributes['spot'] && place.attributes['spot'].value.to_i == 1
+  false
 end
 
 def bike?(place)
-  if place.attributes['bike'] && place.attributes['bike'].value.to_i == 1
-    true
-  else
-    false
-  end
+  return true if place.attributes['bike'] && place.attributes['bike'].value.to_i == 1
+  false
 end
 
 def bike_number(place)
@@ -28,8 +23,15 @@ def bike_number(place)
   value(place, 'bike_numbers').split(',')
 end
 
+def save_to_file!(filename, data)
+  File.open(filename, 'w') do |file|
+  file.print data.to_json
+end
+
+# Logic
 features = []
-nextbike_data = open('http://nextbike.net/maps/nextbike-live.xml?domains=fg')
+# nextbike_data = open('http://nextbike.net/maps/nextbike-live.xml?domains=fg')
+nextbike_data = open('http://localhost:8080/nextbike.xml')
 doc = Nokogiri::XML(nextbike_data)
 doc.search('//country').each do |country|
   country.search('//city').each do |city|
@@ -67,9 +69,7 @@ obj = {
   features: features
 }
 
-File.open('output.geojson', 'w') do |file|
-  file.print obj.to_json
-end
+save_to_file!('output.geojson', data)
 
 
 # city: {
